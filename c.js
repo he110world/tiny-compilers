@@ -558,8 +558,8 @@ Script.prototype.decl_global = function () {
 	var id = this.id();
 	if (id && this.is('(')) {
 		this.load(s);
-
-		var jmp = this.hole(I.JMP);	// skip over function decl when init global var
+		var jmp = this.hole(I.PUSH);
+		this.emit(I.JMP);	// skip over function decl when init global var
 		this.decl_func();
 		this.patch(jmp, this.bin.length);
 	} else {
