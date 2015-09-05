@@ -63,12 +63,12 @@ Script.prototype.lex = function (str) {
 
 	// find identifiers
 	this.source.replace(/[a-zA-Z][a-zA-Z_0-9]*/g, function(id, offset){
-        var retlen = 'return'.length;
-        if (id.indexOf('return') === 0 && id.length>retlen) {
-            self.id_table[offset + retlen] = id.slice(6);
-        } else {
-            self.id_table[offset] = id;
-        }
+		var retlen = 'return'.length;
+		if (id.indexOf('return') === 0 && id.length>retlen) {
+			self.id_table[offset + retlen] = id.slice(6);
+		} else {
+			self.id_table[offset] = id;
+		}
 	});
 
 	// find numbers
@@ -133,9 +133,9 @@ Script.prototype.load = function (s) {
 
 Script.prototype.logerr = function (err) {
 	this.err = 'Error: [' + (err||'') + ']  '
-				+ this.source.slice(Math.max(0,this.c-10), this.c)
-				+ '^^^' + this.source[this.c] + '^^^'
-				+ this.source.slice(this.c+1, this.c+10);
+	+ this.source.slice(Math.max(0,this.c-10), this.c)
+	+ '^^^' + this.source[this.c] + '^^^'
+	+ this.source.slice(this.c+1, this.c+10);
 };
 
 Script.prototype.mustbe = function (tok) {
@@ -431,16 +431,16 @@ Script.prototype.expr = function () {
 Script.prototype.paren_expr = function () {
 	log('paren_expr');
 	this.mustbe('(');
-	var lval = this.expr();
-	this.mustbe(')');
-	return lval;
-};
+		var lval = this.expr();
+		this.mustbe(')');
+		return lval;
+	};
 
-Script.prototype.statement = function () {
-	log('statement');
-	if (this.is('if')) {
-		this.paren_expr();
-		var jmp = this.hole(I.PUSH);
+	Script.prototype.statement = function () {
+		log('statement');
+		if (this.is('if')) {
+			this.paren_expr();
+			var jmp = this.hole(I.PUSH);
 		this.emit(I.JZ);	// if 0, skip over the statement
 		this.statement();
 		if (this.is('else')) {
@@ -530,9 +530,9 @@ Script.prototype.decl_func = function () {
 	this.func[funcname] = this.bin.length;
 
 	this.mustbe('(');
-	while (!this.err && !this.is(')')) {
-		args.push(this.id());
-		this.is(',');
+		while (!this.err && !this.is(')')) {
+			args.push(this.id());
+			this.is(',');
 
 		// load args from stack
 		this.emit(I.LSTORE);
@@ -545,11 +545,11 @@ Script.prototype.decl_func = function () {
 		this.scope.push(args);
 
         // function body
-		while (!this.err && !this.is('}')) {
-			this.statement();
-		}
-		this.scope.pop();
-	}
+        while (!this.err && !this.is('}')) {
+        	this.statement();
+        }
+        this.scope.pop();
+    }
 };
 
 Script.prototype.decl_global = function () {
@@ -647,40 +647,40 @@ Script.prototype.run = function (pc) {
 			++pc;
 			break;
 
-            case I.LT:
-            var b = stack.pop();
-            var a = stack.pop();
-            stack.push(a<b ? 1 : 0);
-            ++pc;
-            break;
+			case I.LT:
+			var b = stack.pop();
+			var a = stack.pop();
+			stack.push(a<b ? 1 : 0);
+			++pc;
+			break;
 
-            case I.GT:
-            var b = stack.pop();
-            var a = stack.pop();
-            stack.push(a>b ? 1 : 0);
-            ++pc;
-            break;
+			case I.GT:
+			var b = stack.pop();
+			var a = stack.pop();
+			stack.push(a>b ? 1 : 0);
+			++pc;
+			break;
 
-            case I.LE:
-            var b = stack.pop();
-            var a = stack.pop();
-            stack.push(a<=b ? 1 : 0);
-            ++pc;
-            break;
+			case I.LE:
+			var b = stack.pop();
+			var a = stack.pop();
+			stack.push(a<=b ? 1 : 0);
+			++pc;
+			break;
 
-            case I.GE:
-            var b = stack.pop();
-            var a = stack.pop();
-            stack.push(a>=b ? 1 : 0);
-            ++pc;
-            break;
+			case I.GE:
+			var b = stack.pop();
+			var a = stack.pop();
+			stack.push(a>=b ? 1 : 0);
+			++pc;
+			break;
 
-            case I.NEQ:
-            var b = stack.pop();
-            var a = stack.pop();
-            stack.push(a!=b ? 1 : 0);
-            ++pc;
-            break;
+			case I.NEQ:
+			var b = stack.pop();
+			var a = stack.pop();
+			stack.push(a!=b ? 1 : 0);
+			++pc;
+			break;
 
 			case I.ADD:
 			var b = stack.pop();
